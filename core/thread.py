@@ -1241,7 +1241,7 @@ class ThreadManager:
                 await confirm.remove_reaction(deny_emoji, self.bot.user)
                 await message.channel.send(
                     embed=discord.Embed(
-                        title="Cancelled", description="Timed out", color=self.bot.error_color
+                        title="Criação cancelada", description="O tempo acabou", color=self.bot.error_color
                     )
                 )
                 del self.cache[recipient.id]
