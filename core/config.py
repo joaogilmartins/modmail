@@ -62,7 +62,7 @@ class ConfigManager:
         "thread_close_footer": "Responder a esta mensagem criará uma nova thread",
         "thread_close_title": "Thread fechada",
         "thread_close_response": "{closer.mention} fechou essa thread. Obrigado por contactar o suporte da nossa rede. Sinta-se à vontade para criar uma nova thread a qualquer momento.",
-        "thread_self_close_response": "Esta thread.",
+        "thread_self_close_response": "{closer.mention} fechou essa thread. Obrigado por contactar o suporte da nossa rede. Sinta-se à vontade para criar uma nova thread a qualquer momento.",
         "thread_move_title": "Thread movida",
         "thread_move_notify": False,
         "thread_move_notify_mods": False,
