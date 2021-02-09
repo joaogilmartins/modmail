@@ -315,7 +315,7 @@ class Thread:
                 embed.add_field(name="Roles", value=role_names, inline=True)
             embed.set_footer(text=footer)
         else:
-            embed.set_footer(text=f"{footer} • (not in main server)")se
+            embed.set_footer(text=f"{footer} • (not in main server)")
 
         if log_count is not None:
             # embed.add_field(name="Past logs", value=f"{log_count}")
