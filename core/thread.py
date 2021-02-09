@@ -732,7 +732,7 @@ class Thread:
 
         return msg
 
-    async def reply(
+    async def responder(
         self, message: discord.Message, anonymous: bool = False, plain: bool = False
     ) -> None:
         if not message.content and not message.attachments:
