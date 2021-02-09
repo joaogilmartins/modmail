@@ -293,7 +293,7 @@ class Thread:
 
         created = str((time - user.created_at).days)
         embed = discord.Embed(
-            color=color, description=f"{user.mention} was created {days(created)}", timestamp=time
+            color=color, description=f"{user.mention} foi criado {days(created)}", timestamp=time
         )
 
         # if not role_names:
@@ -307,7 +307,7 @@ class Thread:
         if member is not None:
             joined = str((time - member.joined_at).days)
             # embed.add_field(name='Joined', value=joined + days(joined))
-            embed.description += f", joined {days(joined)}"
+            embed.description += f", entrou {days(joined)}"
 
             if member.nick:
                 embed.add_field(name="Nickname", value=member.nick, inline=True)
@@ -315,12 +315,12 @@ class Thread:
                 embed.add_field(name="Roles", value=role_names, inline=True)
             embed.set_footer(text=footer)
         else:
-            embed.set_footer(text=f"{footer} • (not in main server)")
+            embed.set_footer(text=f"{footer} • (not in main server)")se
 
         if log_count is not None:
             # embed.add_field(name="Past logs", value=f"{log_count}")
             thread = "thread" if log_count == 1 else "threads"
-            embed.description += f" with **{log_count or 'no'}** past {thread}."
+            embed.description += f" com **{log_count or 'no'}** passadas {thread}."
         else:
             embed.description += "."
 
@@ -1060,7 +1060,7 @@ class Thread:
 
     async def set_title(self, title) -> None:
         user_id = match_user_id(self.channel.topic)
-        await self.channel.edit(topic=f"Title: {title}\nUser ID: {user_id}")
+        await self.channel.edit(topic=f"Title: {title}\nID do utilizador: {user_id}")
 
 
 class ThreadManager:
