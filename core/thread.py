@@ -1254,7 +1254,7 @@ class ThreadManager:
                     await asyncio.sleep(0.2)
                     await confirm.remove_reaction(deny_emoji, self.bot.user)
                     await message.channel.send(
-                        embed=discord.Embed(title="Cancelled", color=self.bot.error_color)
+                        embed=discord.Embed(title="Criação cancelada", color=self.bot.error_color)
                     )
                     del self.cache[recipient.id]
                     return thread
