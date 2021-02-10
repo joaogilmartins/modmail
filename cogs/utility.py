@@ -257,7 +257,7 @@ class Utility(commands.Cog):
         self._original_help_command = bot.help_command
         self.bot.help_command = ModmailHelpCommand(
             command_attrs={
-                "help": "Shows this help message.",
+                "help": "Mostra esta mensagem.",
                 "checks": [checks.has_permissions_predicate(PermissionLevel.REGULAR)],
             },
         )
@@ -274,7 +274,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def changelog(self, ctx, version: str.lower = ""):
-        """Shows the changelog of the Modmail."""
+        """Providencia o changelog."""
         changelog = await Changelog.from_url(self.bot)
         version = version.lstrip("v") if version else changelog.latest_version.version
 
@@ -307,7 +307,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def about(self, ctx):
-        """Shows information about this bot."""
+        """Providencia informação sobre este bot."""
         embed = discord.Embed(color=self.bot.main_color, timestamp=datetime.utcnow())
         embed.set_author(
             name="Modmail - About",
@@ -316,9 +316,9 @@ class Utility(commands.Cog):
         )
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
-        desc = "This is an open source Discord bot that serves as a means for "
-        desc += "members to easily communicate with server administrators in "
-        desc += "an organised manner."
+        desc = "Este bot foi criado especificamente para que cada"
+        desc += "membro possa comunicar com o suporte através de"
+        desc += "um método organizado."
         embed.description = desc
 
         embed.add_field(name="Uptime", value=self.bot.uptime)
@@ -364,7 +364,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def sponsors(self, ctx):
-        """Shows a list of sponsors."""
+        """Mostra uma lista de patrocinadores."""
         resp = await self.bot.session.get(
             "https://raw.githubusercontent.com/kyb3r/modmail/master/SPONSORS.json"
         )
@@ -385,7 +385,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     @utils.trigger_typing
     async def debug(self, ctx):
-        """Shows the recent application logs of the bot."""
+        """Providencia as últimas logs do bot."""
 
         log_file_name = self.bot.token.split(".")[0]
 
@@ -499,7 +499,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def activity(self, ctx, activity_type: str.lower, *, message: str = ""):
         """
-        Set an activity status for the bot.
+        Muda a atividade do bot.
         Possible activity types:
             - `playing`
             - `streaming`
@@ -555,7 +555,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def status(self, ctx, *, status_type: str.lower):
         """
-        Set a status for the bot.
+        Status para o bot.
         Possible status types:
             - `online`
             - `idle`
@@ -657,7 +657,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     @utils.trigger_typing
     async def ping(self, ctx):
-        """Pong! Returns your websocket latency."""
+        """Pong! Providência a latência websocket."""
         embed = discord.Embed(
             title="Pong! Websocket Latency:",
             description=f"{self.bot.ws.latency * 1000:.4f} ms",
@@ -669,7 +669,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def mention(self, ctx, *mention: Union[discord.Role, discord.Member]):
         """
-        Change what the bot mentions at the start of each thread.
+        Muda quem é mencionado no inicio das thread.
         Type only `{prefix}mention` to retrieve your current "mention" message.
         """
         # TODO: ability to disable mention.
@@ -695,7 +695,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def prefix(self, ctx, *, prefix=None):
         """
-        Change the prefix of the bot.
+        Muda o prefix do bot.
         Type only `{prefix}prefix` to retrieve your current bot prefix.
         """
 
@@ -717,7 +717,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def config(self, ctx):
         """
-        Modify changeable configuration variables for this bot.
+        Não fazer senão com ajuda de um Developer.
         Type `{prefix}config options` to view a list
         of valid configuration variables.
         Type `{prefix}config help config-name` for info
@@ -909,7 +909,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def alias(self, ctx, *, name: str.lower = None):
         """
-        Create shortcuts to bot commands.
+        Atalhos para os comandos.
         When `{prefix}alias` is used by itself, this will retrieve
         a list of alias that are currently set. `{prefix}alias-name` will show what the
         alias point to.
@@ -1139,7 +1139,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def permissions(self, ctx):
         """
-        Set the permissions for Modmail commands.
+        Personaliza as permissões do bot.
         You may set permissions based on individual command names, or permission
         levels.
         Acceptable permission levels are:
@@ -1611,7 +1611,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def oauth(self, ctx):
         """
-        Commands relating to logviewer oauth2 login authentication.
+        Comandos relativos à dupla autenticação do logviewer.
         This functionality on your logviewer site is a [**Patron**](https://patreon.com/kyber) only feature.
         """
         await ctx.send_help(ctx.command)
@@ -1675,7 +1675,7 @@ class Utility(commands.Cog):
     @commands.group(invoke_without_command=True)
     @checks.has_permissions(PermissionLevel.OWNER)
     async def autotrigger(self, ctx):
-        """Automatically trigger alias-like commands based on a certain keyword in the user's inital message"""
+        """Cria um "trigger" baseado em mensagens no inicio de cada thread."""
         await ctx.send_help(ctx.command)
 
     @autotrigger.command(name="add")
@@ -1829,7 +1829,7 @@ class Utility(commands.Cog):
     @checks.github_token_required()
     @trigger_typing
     async def github(self, ctx):
-        """Shows the GitHub user your Github_Token is linked to."""
+        """Providencia valores de GitHub."""
         data = await self.bot.api.get_user_info()
 
         if data:
@@ -1852,7 +1852,7 @@ class Utility(commands.Cog):
     @trigger_typing
     async def update(self, ctx, *, flag: str = ""):
         """
-        Update Modmail.
+        Update.
         To stay up-to-date with the latest commit rom GitHub, specify "force" as the flag.
         """
 
