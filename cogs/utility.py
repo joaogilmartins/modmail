@@ -310,7 +310,7 @@ class Utility(commands.Cog):
         """Providencia informação sobre este bot."""
         embed = discord.Embed(color=self.bot.main_color, timestamp=datetime.utcnow())
         embed.set_author(
-            name="Modmail - About",
+            name="Este bot - acerca",
             icon_url=self.bot.user.avatar_url,
             url="https://discord.gg/F34cRU8",
         )
@@ -322,10 +322,11 @@ class Utility(commands.Cog):
         embed.description = desc
 
         embed.add_field(name="Uptime", value=self.bot.uptime)
-        embed.add_field(name="Latency", value=f"{self.bot.latency * 1000:.2f} ms")
-        embed.add_field(name="Version", value=f"`{self.bot.version}`")
-        embed.add_field(name="Authors", value="`kyb3r`, `Taki`, `fourjr`")
-        embed.add_field(name="Hosting Method", value=self.bot.hosting_method.name)
+        embed.add_field(name="Latêcia", value=f"{self.bot.latency * 1000:.2f} ms")
+        embed.add_field(name="Versão", value=f"`{self.bot.version}`")
+        embed.add_field(name="Autores", value="`kyb3r`, `Taki`, `fourjr`,`birdao/bihrdy`")
+        embed.add_field(name="Contribuidores", value="`birhdy`")
+        embed.add_field(name="Método de hospedagem", value=self.bot.hosting_method.name)
 
         changelog = await Changelog.from_url(self.bot)
         latest = changelog.latest_version
@@ -335,25 +336,16 @@ class Utility(commands.Cog):
                 filter(lambda v: not parse_version(v.version).is_prerelease, changelog.versions)
             )
             footer = (
-                f"You are on the prerelease version • the latest version is v{stable.version}."
+                f"Você está na versão pré-lançamento • a mais recente versão é v{stable.version}."
             )
         elif self.bot.version < parse_version(latest.version):
-            footer = f"A newer version is available v{latest.version}."
+            footer = f"Uma nova versão está disponível: v{latest.version}."
         else:
-            footer = "You are up to date with the latest version."
+            footer = "Você está na versão mais atualizada."
 
         embed.add_field(
-            name="Want Modmail in Your Server?",
-            value="Follow the installation guide on [GitHub](https://github.com/kyb3r/modmail/) "
-            "and join our [Discord server](https://discord.gg/F34cRU8)!",
-            inline=False,
-        )
-
-        embed.add_field(
-            name="Support the Developers",
-            value="This bot is completely free for everyone. We rely on kind individuals "
-            "like you to support us on [`Patreon`](https://patreon.com/kyber) (perks included) "
-            "to keep this bot free forever!",
+            name="Suporte deste bot?",
+            value="Suporte em inglês parcial: [Discord server](https://discord.gg/F34cRU8)! Suporte total e em Português: birdao#4816",
             inline=False,
         )
 
