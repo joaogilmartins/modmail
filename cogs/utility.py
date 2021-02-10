@@ -250,14 +250,14 @@ class ModmailHelpCommand(commands.HelpCommand):
 
 
 class Utility(commands.Cog):
-    """Comandos gerais que providenciam utilidade."""
+    """General commands that provide utility."""
 
     def __init__(self, bot):
         self.bot = bot
         self._original_help_command = bot.help_command
         self.bot.help_command = ModmailHelpCommand(
             command_attrs={
-                "help": "Providencia esta mensagem.",
+                "help": "Shows this help message.",
                 "checks": [checks.has_permissions_predicate(PermissionLevel.REGULAR)],
             },
         )
@@ -274,7 +274,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def changelog(self, ctx, version: str.lower = ""):
-        """Providencia o changelog."""
+        """Shows the changelog of the Modmail."""
         changelog = await Changelog.from_url(self.bot)
         version = version.lstrip("v") if version else changelog.latest_version.version
 
@@ -307,7 +307,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def about(self, ctx):
-        """Providencia informação sobre este bot."""
+        """Shows information about this bot."""
         embed = discord.Embed(color=self.bot.main_color, timestamp=datetime.utcnow())
         embed.set_author(
             name="Modmail - About",
@@ -316,16 +316,16 @@ class Utility(commands.Cog):
         )
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
-        desc = "Este é um bot de Discord personalizado criado para que membros"
-        desc += "possam comunicar com os moderadores e administradores do servidor" "
-        desc += "numa maneira organizada."
+        desc = "This is an open source Discord bot that serves as a means for "
+        desc += "members to easily communicate with server administrators in "
+        desc += "an organised manner."
         embed.description = desc
 
         embed.add_field(name="Uptime", value=self.bot.uptime)
-        embed.add_field(name="Latência", value=f"{self.bot.latency * 1000:.2f} ms")
-        embed.add_field(name="Versão", value=f"`{self.bot.version}`")
-        embed.add_field(name="Autores", value="`kyb3r`, `Taki`, `fourjr`, `birdao/birhdy - atualizado, optimizado e traduzido")
-        embed.add_field(name="Método de hospedagem", value=self.bot.hosting_method.name)
+        embed.add_field(name="Latency", value=f"{self.bot.latency * 1000:.2f} ms")
+        embed.add_field(name="Version", value=f"`{self.bot.version}`")
+        embed.add_field(name="Authors", value="`kyb3r`, `Taki`, `fourjr`")
+        embed.add_field(name="Hosting Method", value=self.bot.hosting_method.name)
 
         changelog = await Changelog.from_url(self.bot)
         latest = changelog.latest_version
@@ -343,8 +343,17 @@ class Utility(commands.Cog):
             footer = "You are up to date with the latest version."
 
         embed.add_field(
-            name="Suporte ao utilizador",
-            value="Siga o guia de instalação em [GitHub](https://github.com/kyb3r/modmail/) e obtenha suporte em Português adicionando birdao#4816 ",
+            name="Want Modmail in Your Server?",
+            value="Follow the installation guide on [GitHub](https://github.com/kyb3r/modmail/) "
+            "and join our [Discord server](https://discord.gg/F34cRU8)!",
+            inline=False,
+        )
+
+        embed.add_field(
+            name="Support the Developers",
+            value="This bot is completely free for everyone. We rely on kind individuals "
+            "like you to support us on [`Patreon`](https://patreon.com/kyber) (perks included) "
+            "to keep this bot free forever!",
             inline=False,
         )
 
@@ -355,7 +364,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.REGULAR)
     @utils.trigger_typing
     async def sponsors(self, ctx):
-        """Providencia a lista de sponsors."""
+        """Shows a list of sponsors."""
         resp = await self.bot.session.get(
             "https://raw.githubusercontent.com/kyb3r/modmail/master/SPONSORS.json"
         )
@@ -490,26 +499,21 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def activity(self, ctx, activity_type: str.lower, *, message: str = ""):
         """
-        Muda o status do bot.
-
-        Tipos de atividade possível:
+        Set an activity status for the bot.
+        Possible activity types:
             - `playing`
             - `streaming`
             - `listening`
             - `watching`
             - `competing`
-
-        Quando o tipo de atividade é `listening`,
-        deve ser seguido por "to": "listening to..."
-
-        Quando o tipo de atividade é `competing`,
+        When activity type is set to `listening`,
+        it must be followed by a "to": "listening to..."
+        When activity type is set to `competing`,
         it must be followed by a "in": "competing in..."
-
-        Quando o tipo de atividade é `streaming`, você pode personalizar
-        a página da twitch:
-        - `{prefix}config set twitch_url https://www.twitch.tv/exemplodecanal/`
-
-        Para remover a atividade atual:
+        When activity type is set to `streaming`, you can set
+        the linked twitch page:
+        - `{prefix}config set twitch_url https://www.twitch.tv/somechannel/`
+        To remove the current activity status:
         - `{prefix}activity clear`
         """
         if activity_type == "clear":
@@ -517,7 +521,7 @@ class Utility(commands.Cog):
             self.bot.config.remove("activity_message")
             await self.bot.config.update()
             await self.set_presence()
-            embed = discord.Embed(title="Atividade removida", color=self.bot.main_color)
+            embed = discord.Embed(title="Activity Removed", color=self.bot.main_color)
             return await ctx.send(embed=embed)
 
         if not message:
@@ -551,15 +555,13 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def status(self, ctx, *, status_type: str.lower):
         """
-        Troca o status do bot (não é o mesmo que atividade).
-
-        Tipos de status possíveis:
+        Set a status for the bot.
+        Possible status types:
             - `online`
             - `idle`
             - `dnd` or `do not disturb`
             - `invisible` or `offline`
-
-        Para remover os status atuais:
+        To remove the current status:
         - `{prefix}status clear`
         """
         if status_type == "clear":
@@ -580,8 +582,8 @@ class Utility(commands.Cog):
         self.bot.config["status"] = status.value
         await self.bot.config.update()
 
-        msg = f"Status mudado para: {status.value}."
-        embed = discord.Embed(title="Status mudado", description=msg, color=self.bot.main_color)
+        msg = f"Status set to: {status.value}."
+        embed = discord.Embed(title="Status Changed", description=msg, color=self.bot.main_color)
         return await ctx.send(embed=embed)
 
     async def set_presence(self, *, status=None, activity_type=None, activity_message=None):
@@ -655,7 +657,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     @utils.trigger_typing
     async def ping(self, ctx):
-        """Pong! Providencia a sua latência websocket.."""
+        """Pong! Returns your websocket latency."""
         embed = discord.Embed(
             title="Pong! Websocket Latency:",
             description=f"{self.bot.ws.latency * 1000:.4f} ms",
@@ -667,8 +669,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def mention(self, ctx, *mention: Union[discord.Role, discord.Member]):
         """
-        Muda que utilizadores e roles que são mencionados no início da thread.
-
+        Change what the bot mentions at the start of each thread.
         Type only `{prefix}mention` to retrieve your current "mention" message.
         """
         # TODO: ability to disable mention.
@@ -694,8 +695,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     async def prefix(self, ctx, *, prefix=None):
         """
-        Muda o prefixo do bot.
-
+        Change the prefix of the bot.
         Type only `{prefix}prefix` to retrieve your current bot prefix.
         """
 
@@ -717,17 +717,13 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def config(self, ctx):
         """
-        Modifica as configurações (Para utilizadores avançadas, contacte um dev).
-
+        Modify changeable configuration variables for this bot.
         Type `{prefix}config options` to view a list
         of valid configuration variables.
-
         Type `{prefix}config help config-name` for info
          on a config.
-
         To set a configuration variable:
         - `{prefix}config set config-name value here`
-
         To remove a configuration variable:
         - `{prefix}config remove config-name`
         """
@@ -806,7 +802,6 @@ class Utility(commands.Cog):
     async def config_get(self, ctx, *, key: str.lower = None):
         """
         Show the configuration variables that are currently set.
-
         Leave `key` empty to show all currently set configuration variables.
         """
         keys = self.bot.config.public_keys
@@ -914,21 +909,16 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.MODERATOR)
     async def alias(self, ctx, *, name: str.lower = None):
         """
-        Cria atalhos para os comandos do bot.
-
+        Create shortcuts to bot commands.
         When `{prefix}alias` is used by itself, this will retrieve
         a list of alias that are currently set. `{prefix}alias-name` will show what the
         alias point to.
-
         To use alias:
-
         First create an alias using:
         - `{prefix}alias add alias-name other-command`
-
         For example:
         - `{prefix}alias add r reply`
         - Now you can use `{prefix}r` as an replacement for `{prefix}reply`.
-
         See also `{prefix}snippet`.
         """
 
@@ -1073,14 +1063,10 @@ class Utility(commands.Cog):
     async def alias_add(self, ctx, name: str.lower, *, value):
         """
         Add an alias.
-
         Alias also supports multi-step aliases, to create a multi-step alias use quotes
         to wrap each step and separate each step with `&&`. For example:
-
         - `{prefix}alias add movenreply "move admin-category" && "reply Thanks for reaching out to the admins"`
-
         However, if you run into problems, try wrapping the command with quotes. For example:
-
         - This will fail: `{prefix}alias add reply You'll need to type && to work`
         - Correct method: `{prefix}alias add reply "You'll need to type && to work"`
         """
@@ -1153,23 +1139,18 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def permissions(self, ctx):
         """
-        Troca as permissões do modmail.
-
-        Você pode definir as permissões de acordo com roles ou
-        utilizadores.
-
+        Set the permissions for Modmail commands.
+        You may set permissions based on individual command names, or permission
+        levels.
         Acceptable permission levels are:
             - **Owner** [5] (absolute control over the bot)
             - **Administrator** [4] (administrative powers such as setting activities)
             - **Moderator** [3] (ability to block)
             - **Supporter** [2] (access to core Modmail supporting functions)
             - **Regular** [1] (most basic interactions such as help and about)
-
         By default, owner is set to the absolute bot owner and regular is `@everyone`.
-
         To set permissions, see `{prefix}help permissions add`; and to change permission level for specific
         commands see `{prefix}help permissions override`.
-
         Note: You will still have to manually give/take permission to the Modmail
         category to users/roles.
         """
@@ -1207,17 +1188,13 @@ class Utility(commands.Cog):
     async def permissions_override(self, ctx, command_name: str.lower, *, level_name: str):
         """
         Change a permission level for a specific command.
-
         Examples:
         - `{prefix}perms override reply administrator`
         - `{prefix}perms override "plugin enabled" moderator`
-
         To undo a permission override, see `{prefix}help permissions remove`.
-
         Example:
         - `{prefix}perms remove override reply`
         - `{prefix}perms remove override plugin enabled`
-
         You can retrieve a single or all command level override(s), see`{prefix}help permissions get`.
         """
 
@@ -1266,16 +1243,13 @@ class Utility(commands.Cog):
     ):
         """
         Add a permission to a command or a permission level.
-
         For sub commands, wrap the complete command name with quotes.
         To find a list of permission levels, see `{prefix}help perms`.
-
         Examples:
         - `{prefix}perms add level REGULAR everyone`
         - `{prefix}perms add command reply @user`
         - `{prefix}perms add command "plugin enabled" @role`
         - `{prefix}perms add command help 984301093849028`
-
         Do not ping `@everyone` for granting permission to everyone, use "everyone" or "all" instead.
         """
 
@@ -1340,10 +1314,8 @@ class Utility(commands.Cog):
     ):
         """
         Remove permission to use a command, permission level, or command level override.
-
         For sub commands, wrap the complete command name with quotes.
         To find a list of permission levels, see `{prefix}help perms`.
-
         Examples:
         - `{prefix}perms remove level REGULAR everyone`
         - `{prefix}perms remove command reply @user`
@@ -1351,7 +1323,6 @@ class Utility(commands.Cog):
         - `{prefix}perms remove command help 984301093849028`
         - `{prefix}perms remove override block`
         - `{prefix}perms remove override "snippet add"`
-
         Do not ping `@everyone` for granting permission to everyone, use "everyone" or "all" instead.
         """
         if type_ not in {"command", "level", "override"} or (
@@ -1472,28 +1443,20 @@ class Utility(commands.Cog):
     ):
         """
         View the currently-set permissions.
-
         To find a list of permission levels, see `{prefix}help perms`.
-
         To view all command and level permissions:
-
         Examples:
         - `{prefix}perms get @user`
         - `{prefix}perms get 984301093849028`
-
         To view all users and roles of a command or level permission:
-
         Examples:
         - `{prefix}perms get command reply`
         - `{prefix}perms get command plugin remove`
         - `{prefix}perms get level SUPPORTER`
-
         To view command level overrides:
-
         Examples:
         - `{prefix}perms get override block`
         - `{prefix}perms get override permissions add`
-
         Do not ping `@everyone` for granting permission to everyone, use "everyone" or "all" instead.
         """
 
@@ -1648,8 +1611,7 @@ class Utility(commands.Cog):
     @checks.has_permissions(PermissionLevel.OWNER)
     async def oauth(self, ctx):
         """
-        Comandos relacionados com dupla autenticação.
-
+        Commands relating to logviewer oauth2 login authentication.
         This functionality on your logviewer site is a [**Patron**](https://patreon.com/kyber) only feature.
         """
         await ctx.send_help(ctx.command)
@@ -1659,7 +1621,6 @@ class Utility(commands.Cog):
     async def oauth_whitelist(self, ctx, target: Union[discord.Role, utils.User]):
         """
         Whitelist or un-whitelist a user or role to have access to logs.
-
         `target` may be a role ID, name, mention, user ID, name, or mention.
         """
         whitelisted = self.bot.config["oauth_whitelist"]
@@ -1714,7 +1675,7 @@ class Utility(commands.Cog):
     @commands.group(invoke_without_command=True)
     @checks.has_permissions(PermissionLevel.OWNER)
     async def autotrigger(self, ctx):
-        """Automaticamente dá "trigger" em mensagens pré-programadas de acordo com inicios de threads"""
+        """Automatically trigger alias-like commands based on a certain keyword in the user's inital message"""
         await ctx.send_help(ctx.command)
 
     @autotrigger.command(name="add")
@@ -1868,7 +1829,7 @@ class Utility(commands.Cog):
     @checks.github_token_required()
     @trigger_typing
     async def github(self, ctx):
-        """Providencia o utilizador de GitHub associado."""
+        """Shows the GitHub user your Github_Token is linked to."""
         data = await self.bot.api.get_user_info()
 
         if data:
@@ -1891,7 +1852,7 @@ class Utility(commands.Cog):
     @trigger_typing
     async def update(self, ctx, *, flag: str = ""):
         """
-        Atualiza Modmail. (***Contacte um moderador!***)
+        Update Modmail.
         To stay up-to-date with the latest commit rom GitHub, specify "force" as the flag.
         """
 
