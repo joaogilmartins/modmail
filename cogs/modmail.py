@@ -1395,7 +1395,7 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     async def repair(self, ctx):
         """
-        Repair a thread broken by Discord.
+        Repara uma threada quebrada pelo discord.
         """
         sent_emoji, blocked_emoji = await self.bot.retrieve_emoji()
 
