@@ -54,7 +54,7 @@ class ConfigManager:
         "thread_auto_close_silently": False,
         "thread_auto_close": isodate.Duration(),
         "thread_auto_close_response": "Este ticket foi fechado devido a inatividade...",
-        "thread_creation_response": "Obrigado por ter enviado uma mensagem para obter ajuda via suporte! Aguarde breves momentos, a nossa equipe estará com você em breve!",
+        "thread_creation_response": "Obrigado por ter enviado uma mensagem para obter ajuda via suporte! Aguarde breves momentos. Será ajudado com brevidade!",
         "thread_creation_footer": "A sua mensagem foi enviada",
         "thread_contact_silently": False,
         "thread_self_closable_creation_footer": "Clique no cadeado para fechar o ticked",
