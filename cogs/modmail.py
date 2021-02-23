@@ -38,23 +38,23 @@ class Modmail(commands.Cog):
         """
         Setup - Suporte.
 
-        You only need to run this command
-        once after configuring Modmail.
+        Você só precisará usar esse comando
+        depois de ter configurado o modmail.
         """
 
         if ctx.guild != self.bot.modmail_guild:
             return await ctx.send(
-                f"You can only setup in the Modmail guild: {self.bot.modmail_guild}."
+                f"Você apenas pode dar setup em: {self.bot.modmail_guild}."
             )
 
         if self.bot.main_category is not None:
-            logger.debug("Can't re-setup server, main_category is found.")
-            return await ctx.send(f"{self.bot.modmail_guild} is already set up.")
+            logger.debug("main_category encontrada. Não pode haver resetup.")
+            return await ctx.send(f"{self.bot.modmail_guild} já foi setado.")
 
         if self.bot.modmail_guild is None:
             embed = discord.Embed(
-                title="Error",
-                description="Modmail functioning guild not found.",
+                title="Erro",
+                description="Guild não encontrada.",
                 color=self.bot.error_color,
             )
             return await ctx.send(embed=embed)
@@ -77,7 +77,7 @@ class Modmail(commands.Cog):
                     if key is None:
                         key = self.bot.modmail_guild.get_role(perm)
                 if key is not None:
-                    logger.info("Granting %s access to Modmail category.", key.name)
+                    logger.info("Garantindo permissão %s.", key.name)
                     overwrites[key] = discord.PermissionOverwrite(read_messages=True)
 
         category = await self.bot.modmail_guild.create_category(
@@ -91,15 +91,15 @@ class Modmail(commands.Cog):
         )
 
         embed = discord.Embed(
-            title="Friendly Reminder",
-            description=f"You may use the `{self.bot.prefix}config set log_channel_id "
-            "<channel-id>` command to set up a custom log channel, then you can delete this default "
+            title="Recomendação amigável",
+            description=f"Você pode usar `{self.bot.prefix}config set log_channel_id "
+            "<channel-id>` para configurar outro canal e apagar este correntemente "
             f"{log_channel.mention} log channel.",
             color=self.bot.main_color,
         )
 
         embed.add_field(
-            name="Thanks for using our bot!",
+            name="Obrigado por usar o bot!",
             value="If you like what you see, consider giving the "
             "[repo a star](https://github.com/kyb3r/modmail) :star: and if you are "
             "feeling extra generous, buy us coffee on [Patreon](https://patreon.com/kyber) :heart:!",
@@ -113,12 +113,12 @@ class Modmail(commands.Cog):
 
         await self.bot.config.update()
         await ctx.send(
-            "**Successfully set up server.**\n"
-            "Consider setting permission levels to give access to roles "
-            "or users the ability to use Modmail.\n\n"
-            f"Type:\n- `{self.bot.prefix}permissions` and `{self.bot.prefix}permissions add` "
-            "for more info on setting permissions.\n"
-            f"- `{self.bot.prefix}config help` for a list of available customizations."
+            "**Servidor configurado com sucesso.**\n"
+            "Considere setar níveis de permissão para acesso a comandos "
+            "ou habilidade dos utilizadores para usar modmail.\n\n"
+            f"Type:\n- `{self.bot.prefix}permissions` e `{self.bot.prefix}permissions add` "
+            "para mais informação a setar permissões.\n"
+            f"- `{self.bot.prefix}config help` para uma lista de customizações possíveis."
         )
 
         if not self.bot.config["command_permissions"] and not self.bot.config["level_permissions"]:
@@ -132,22 +132,20 @@ class Modmail(commands.Cog):
         """
         Cria mensagens pré-definidas nas threads.
 
-        When `{prefix}snippet` is used by itself, this will retrieve
-        a list of snippets that are currently set. `{prefix}snippet-name` will show what the
-        snippet point to.
+        Quando `{prefix}snippet` é usado por si só, irá providenciar
+        uma lista de snippets em utilizacão. `{prefix}snippet-name` mostrará o que
+        snippet aponta para.
 
-        To create a snippet:
-        - `{prefix}snippet add snippet-name A pre-defined text.`
+        Para criar um snippet:
+        - `{prefix}snippet e snippet-name Texto.`
 
-        You can use your snippet in a thread channel
-        with `{prefix}snippet-name`, the message "A pre-defined text."
-        will be sent to the recipient.
+        Você só pode usar um snippet num canal de thread
+        com `{prefix}snippet-name`, a mensagem "Texto"
+        será mandada para o recipiente.
 
-        Currently, there is not a built-in anonymous snippet command; however, a workaround
-        is available using `{prefix}alias`. Here is how:
-        - `{prefix}alias add snippet-name anonreply A pre-defined anonymous text.`
+        - `{prefix}alias add snippet-name anonreply Para snippets anonimos.`
 
-        See also `{prefix}alias`.
+        Veja também `{prefix}alias`.
         """
 
         if name is not None:
@@ -183,7 +181,7 @@ class Modmail(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     async def snippet_raw(self, ctx, *, name: str.lower):
         """
-        View the raw content of a snippet.
+        Veja o conteúdo de um snippet.
         """
         val = self.bot.snippets.get(name)
         if val is None:
@@ -204,20 +202,20 @@ class Modmail(commands.Cog):
         """
         Adiciona um snippet.
 
-        Simply to add a snippet, do: ```
-        {prefix}snippet add hey hello there :)
+        Para adicionar um snippet, faça: ```
+        {prefix}snippet add oi :)
         ```
-        then when you type `{prefix}hey`, "hello there :)" will get sent to the recipient.
+        assim, quando fizer `{prefix}hey`, "oi :)" será mandado para o recipiente
 
-        To add a multi-word snippet name, use quotes: ```
-        {prefix}snippet add "two word" this is a two word snippet.
+        Para adicionar um snippet com várias palavras: ```
+        {prefix}snippet add "duas palavras" isto é um snippet com duas paalvras.
         ```
         """
         if name in self.bot.snippets:
             embed = discord.Embed(
                 title="Error",
                 color=self.bot.error_color,
-                description=f"Snippet `{name}` already exists.",
+                description=f"Snippet `{name}` já existe.",
             )
             return await ctx.send(embed=embed)
 
@@ -270,8 +268,8 @@ class Modmail(commands.Cog):
         """
         Edita um snippet.
 
-        To edit a multi-word snippet name, use quotes: ```
-        {prefix}snippet edit "two word" this is a new two word snippet.
+        Para editar um snippet com várias palavras: ```
+        {prefix}snippet edit "oi :)" isto é um novo snippet.
         ```
         """
         if name in self.bot.snippets:
@@ -294,8 +292,8 @@ class Modmail(commands.Cog):
         """
         Move a thread para outra categoria.
 
-        `category` may be a category ID, mention, or name.
-        `options` is a string which takes in arguments on how to perform the move. Ex: "silently"
+        `category` pode ser um ID de categoria ou nome.
+        `options` serve para adicionar argumentos a realizar.
         """
         split_args = arguments.strip('"').split(" ")
         category = None
@@ -372,19 +370,19 @@ class Modmail(commands.Cog):
         """
         Fecha a thread atual.
 
-        Close after a period of time:
+        Fechar depois de um período de tempo (em inglês):
         - `{prefix}close in 5 hours`
         - `{prefix}close 2m30s`
 
-        Custom close messages:
-        - `{prefix}close 2 hours The issue has been resolved.`
-        - `{prefix}close We will contact you once we find out more.`
+        Mensagens programadas:
+        - `{prefix}close 2 hours Problema resolvido.`
+        - `{prefix}close Será contactado assim que soubermos mais.`
 
-        Silently close a thread (no message)
+        Fecha uma thread silenciosamente (sem mensagem)
         - `{prefix}close silently`
         - `{prefix}close in 10m silently`
 
-        Stop a thread from closing:
+        Cancelar a calendarização:
         - `{prefix}close cancel`
         """
 
