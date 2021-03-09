@@ -57,7 +57,7 @@ class ConfigManager:
         "thread_creation_response": "Obrigado por ter enviado uma mensagem para obter ajuda via suporte! Aguarde breves momentos. Será ajudado com brevidade!",
         "thread_creation_footer": "A sua mensagem foi enviada",
         "thread_contact_silently": False,
-        "thread_self_closable_creation_footer": "Clique no cadeado para fechar o ticked",
+        "thread_self_closable_creation_footer": "Clique no cadeado para fechar o ticket",
         "thread_creation_title": "Ticket criado",
         "thread_close_footer": "Responder a esta mensagem criará um novo ticket",
         "thread_close_title": "Ticket criado fechado",
@@ -84,7 +84,7 @@ class ConfigManager:
         "anonymous_snippets": False,
         # moderation
         "recipient_color": str(discord.Color.gold()),
-        "mod_color": str(discord.Color.green()),
+        "mod_color": str(discord.Color.red()),
         "mod_tag": None,
         # anonymous message
         "anon_username": None,
