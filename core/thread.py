@@ -1180,7 +1180,7 @@ class ThreadManager:
             try:
                 await thread.wait_until_ready()
             except asyncio.CancelledError:
-                logger.warning("Thread para %s cancelada, recipient)
+                logger.warning("Thread para %s cancelada, recipient")
                 return thread
             else:
                 if thread.channel and self.bot.get_channel(thread.channel.id):
