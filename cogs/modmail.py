@@ -435,11 +435,11 @@ class Modmail(commands.Cog):
         """
         Desinscreve um usuário ou role da thread.
 
-        Once a thread message is received, `user_or_role` will be pinged once.
+        Uma vez que uma mensagem é recebida, `user_or_role` será pingado uma vez.
 
-        Leave `user_or_role` empty to notify yourself.
-        `@here` and `@everyone` can be substituted with `here` and `everyone`.
-        `user_or_role` may be a user ID, mention, name. role ID, mention, name, "everyone", or "here".
+        Deixe `user_or_role` vazio para notificar você mesmo
+        `@here` e `@everyone` pode ser substituido por `here` e `everyone`.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         mention = self.parse_user_or_role(ctx, user_or_role)
         if mention is None:
@@ -475,9 +475,9 @@ class Modmail(commands.Cog):
         """
         Desinscreve um usuário ou role da thread.
 
-        Leave `user_or_role` empty to un-notify yourself.
-        `@here` and `@everyone` can be substituted with `here` and `everyone`.
-        `user_or_role` may be a user ID, mention, name, role ID, mention, name, "everyone", or "here".
+        Deixe `user_or_role` vazio para desinscrever você mesmo
+        `@here` e `@everyone` podem ser substituidas por `here` e `everyone`.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         mention = self.parse_user_or_role(ctx, user_or_role)
         if mention is None:
@@ -493,13 +493,13 @@ class Modmail(commands.Cog):
         if mention not in mentions:
             embed = discord.Embed(
                 color=self.bot.error_color,
-                description=f"{mention} does not have a pending notification.",
+                description=f"{mention} não tem uma notificação pendente.",
             )
         else:
             mentions.remove(mention)
             await self.bot.config.update()
             embed = discord.Embed(
-                color=self.bot.main_color, description=f"{mention} will no longer be notified."
+                color=self.bot.main_color, description=f"{mention} não será notificado."
             )
         return await ctx.send(embed=embed)
 
@@ -512,15 +512,15 @@ class Modmail(commands.Cog):
         """
         Notifique um usuário, role da thread atual.
 
-        You will be pinged for every thread message received until you unsubscribe.
+        Será notificado todas as vezes por cada mensagem recebida antes da desinscrição.
 
-        Leave `user_or_role` empty to subscribe yourself.
-        `@here` and `@everyone` can be substituted with `here` and `everyone`.
-        `user_or_role` may be a user ID, mention, name, role ID, mention, name, "everyone", or "here".
+        Deixe `user_or_role` vazio para se notificar a si mesmo.
+        `@here` e `@everyone` pode ser substituido por `here` e `everyone`.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         mention = self.parse_user_or_role(ctx, user_or_role)
         if mention is None:
-            raise commands.BadArgument(f"{user_or_role} is not a valid user or role.")
+            raise commands.BadArgument(f"{user_or_role} não é um usuário ou role correto.")
 
         thread = ctx.thread
 
@@ -532,14 +532,14 @@ class Modmail(commands.Cog):
         if mention in mentions:
             embed = discord.Embed(
                 color=self.bot.error_color,
-                description=f"{mention} is not subscribed to this thread.",
+                description=f"{mention} não está subscrito nessa thread.",
             )
         else:
             mentions.append(mention)
             await self.bot.config.update()
             embed = discord.Embed(
                 color=self.bot.main_color,
-                description=f"{mention} will now be notified of all messages received.",
+                description=f"{mention} will now be notified of all messages received. será notificado sobre todas as mensagens recebidas",
             )
         return await ctx.send(embed=embed)
 
@@ -552,9 +552,9 @@ class Modmail(commands.Cog):
         """
         Desinscreve um usuário ou role da thread.
 
-        Leave `user_or_role` empty to unsubscribe yourself.
-        `@here` and `@everyone` can be substituted with `here` and `everyone`.
-        `user_or_role` may be a user ID, mention, name, role ID, mention, name, "everyone", or "here".
+        Deixe `user_or_role` vazio para se desinscrever
+        `@here` e `@everyone` pode ser substituido por `here` e `everyone`.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         mention = self.parse_user_or_role(ctx, user_or_role)
         if mention is None:
@@ -629,10 +629,10 @@ class Modmail(commands.Cog):
             embed.add_field(name="Created", value=duration(created_at, now=datetime.utcnow()))
             closer = entry.get("closer")
             if closer is None:
-                closer_msg = "Unknown"
+                closer_msg = "Desconhecido"
             else:
                 closer_msg = f"<@{closer['id']}>"
-            embed.add_field(name="Closed By", value=closer_msg)
+            embed.add_field(name="Fechado", value=closer_msg)
 
             if entry["recipient"]["id"] != entry["creator"]["id"]:
                 embed.add_field(name="Created by", value=f"<@{entry['creator']['id']}>")
@@ -667,9 +667,9 @@ class Modmail(commands.Cog):
         """
         Providencia as threads anteriores de um membro.
 
-        Leave `user` blank when this command is used within a
-        thread channel to show logs for the current recipient.
-        `user` may be a user ID, mention, or name.
+        Deixe `user` vazio quando este comando for usado em um
+        canal de ticket para mostrar as logs correntes.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
 
         await ctx.trigger_typing()
@@ -705,8 +705,8 @@ class Modmail(commands.Cog):
         """
         Providencia todas as logs fechadas por um determinado utilizador.
 
-        If no `user` is provided, the user will be the person who sent this command.
-        `user` may be a user ID, mention, or name.
+        Se nenhum `user` for providenciado, a pessoa será quem usou este comando.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         user = user if user is not None else ctx.author
 
@@ -754,8 +754,8 @@ class Modmail(commands.Cog):
         """
         Providencia todas as logs de um utilizador.
 
-        If no `user` is provided, the user will be the person who sent this command.
-        `user` may be a user ID, mention, or name.
+        Se nenhum `user` for providenciado, será usado o usuário que usou este comando.
+        `user_or_role` pode ser um ID de usuário, menção, nome.
         """
         user = user if user is not None else ctx.author
 
@@ -779,7 +779,7 @@ class Modmail(commands.Cog):
         """
         Providencia todas as logs de acordo com a sua pesquisa.
 
-        Provide a `limit` to specify the maximum number of logs the bot should find.
+        Providencie um `limit` para encontrar um número máximo de logs a serem encontradas.
         """
 
         await ctx.trigger_typing()
@@ -791,7 +791,7 @@ class Modmail(commands.Cog):
         if not embeds:
             embed = discord.Embed(
                 color=self.bot.error_color,
-                description="No log entries have been found for that query.",
+                description="Nenhuma log encontrada.",
             )
             return await ctx.send(embed=embed)
 
@@ -805,8 +805,8 @@ class Modmail(commands.Cog):
         """
         Responde a uma thread.
 
-        Supports attachments and images as well as
-        automatically embedding image URLs.
+        Suporta anexos assim como permite
+        automaticamente criar embed de URLs.
         """
         ctx.message.content = msg
         async with ctx.typing():
@@ -819,13 +819,13 @@ class Modmail(commands.Cog):
         """
         Responde a uma thread com variáveis.
 
-        Works just like `{prefix}reply`, however with the addition of three variables:
-          - `{{channel}}` - the `discord.TextChannel` object
-          - `{{recipient}}` - the `discord.User` object of the recipient
-          - `{{author}}` - the `discord.User` object of the author
+       Funciona como `?reply`, mas com a adição de três variáveis
+          - `{{channel}}` - o `discord.TextChannel` objeto
+          - `{{recipient}}` - o `discord.User` objeto do recipiente
+          - `{{author}}` - the `discord.User` object do autor
 
-        Supports attachments and images as well as
-        automatically embedding image URLs.
+        Suporta anexos assim como suporta
+        embeds de URLs automáticas.
         """
         msg = self.bot.formatter.format(
             msg, channel=ctx.channel, recipient=ctx.thread.recipient, author=ctx.message.author
@@ -841,13 +841,13 @@ class Modmail(commands.Cog):
         """
         Responde a uma thread com variáveis e anonimamente.
 
-        Works just like `{prefix}areply`, however with the addition of three variables:
-          - `{{channel}}` - the `discord.TextChannel` object
-          - `{{recipient}}` - the `discord.User` object of the recipient
-          - `{{author}}` - the `discord.User` object of the author
+       Funciona como `?reply`, mas com a adição de três variáveis
+          - `{{channel}}` - o `discord.TextChannel` objeto
+          - `{{recipient}}` - o `discord.User` objeto do recipiente
+          - `{{author}}` - the `discord.User` object do autor
 
-        Supports attachments and images as well as
-        automatically embedding image URLs.
+        Suporta anexos assim como suporta
+        embeds de URLs automáticas.
         """
         msg = self.bot.formatter.format(
             msg, channel=ctx.channel, recipient=ctx.thread.recipient, author=ctx.message.author
@@ -863,11 +863,11 @@ class Modmail(commands.Cog):
         """
         Responder a uma thread anonimamente.
 
-        You can edit the anonymous user's name,
-        avatar and tag using the config command.
+        É possível mudar o nome do anónimo,
+        avatar e tag usando o comando config.
 
-        Edit the `anon_username`, `anon_avatar_url`
-        and `anon_tag` config variables to do so.
+        Edite o `anon_username`, `anon_avatar_url`
+        e `anon_tag` para fazer isso.
         """
         ctx.message.content = msg
         async with ctx.typing():
@@ -880,8 +880,8 @@ class Modmail(commands.Cog):
         """
         Responder a uma thread planamente (sem prefixo).
 
-        Supports attachments and images as well as
-        automatically embedding image URLs.
+        Suporta anexos assim como suporta
+        embeds de URLs automáticas.
         """
         ctx.message.content = msg
         async with ctx.typing():
@@ -908,7 +908,7 @@ class Modmail(commands.Cog):
         """
         Cria uma nota sobre a thread aparente.
 
-        Useful for noting context.
+        Útil para contextos de anotação.
         """
         ctx.message.content = msg
         async with ctx.typing():
@@ -937,10 +937,10 @@ class Modmail(commands.Cog):
         """ 
         Edita uma mensagem.
 
-        If no `message_id` is provided,
-        the last message sent by a staff will be edited.
+        Se nenhum `message_id` é providenciado,
+        a última mensagem será editada.
 
-        Note: attachments **cannot** be edited.
+        Nota: attachments **não podem** ser editados..
         """
         thread = ctx.thread
 
@@ -949,8 +949,8 @@ class Modmail(commands.Cog):
         except ValueError:
             return await ctx.send(
                 embed=discord.Embed(
-                    title="Failed",
-                    description="Cannot find a message to edit. Plain messages are not supported.",
+                    title="Falhado",
+                    description="Não foi possível encontrar uma mensagem para editar    .",
                     color=self.bot.error_color,
                 )
             )
